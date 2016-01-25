@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="section">
+    <div class="row">
+      <%= render file: 'common/slidebar' %>
+      <div class="col s9">
+        <h5>Show Instance</h5>
+        <table class="bordered striped centered">
+          <thead>
+            <tr>
+              <th>Host Name</th>
+              <th>Images</th>
+              <th>CPUs</th>
+              <th>RAM</th>
+              <th>IP</th>
+              <th>MAC</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @instances.each do |instance| %>
+              <tr>
+                <td><%= instance.name %></td>
+                <td><%= @image_names[instance.os.to_i] %></td>
+                <td><%= instance.cpu %></td>
+                <td><%= instance.ram %> MB</td>
+                <td><%= instance.ip_addr %></td>
+                <td><%= instance.mac_addr %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

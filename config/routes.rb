@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  get 'instance/create'
+  post 'instance/create', to: 'instance#post_create'
+
+  get 'instance/show'
+
+  get 'home', to: 'home#index'
+  get 'security', to: 'security#index'
+  post 'security/login', to: 'security#login', as: 'login'
+  get 'security/logout', to: 'security#logout', as: 'logout'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

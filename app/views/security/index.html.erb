@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="section">
+    <div class="row">
+      <div class="col s12">
+        <%= form_tag('/security/login', :method => "post") do %>
+        <%= session[:user_id] %>
+          <div class="row">
+            <div class="input-field col s12">
+              <%= text_field :login, :id_str %>
+              <%= label :login, :id_str, "Id" %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <%= password_field :login, :password %>
+              <%= label :login, :password, "Password" %>
+            </div>
+          </div>
+          <%= button_tag("login", :class => "btn") %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

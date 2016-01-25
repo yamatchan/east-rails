@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="section">
+    <div class="row">
+      <%= render file: 'common/slidebar' %>
+      <div class="col s9">
+        <h5>Create Instance</h5>
+        <%= form_tag('create', :method => "post") do %>
+          <div class="row">
+            <div class="input-field col s12">
+              <%= text_field :vm, :name %>
+              <%= label :vm, :name, "Host Name" %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <%= label :vm, :os, "OS" %>
+              <% logger.debug @image_names %>
+              <%= select :vm, :os, @image_names, {}, {:class => "browser-default"} %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <%= label :vm, :cpu, "CPU cores" %>
+              <%= select :vm, :cpu, [1,2,3,4], {}, {:class => "browser-default"} %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <%= label :vm, :ram, "RAM[MB]" %>
+              <%= select :vm, :ram, [256,512,1024,2048], {}, {:class => "browser-default"} %>
+            </div>
+          </div>
+          <%= button_tag("Create", :class => "btn") %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
