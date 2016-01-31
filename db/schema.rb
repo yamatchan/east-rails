@@ -11,13 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160122023904) do
+ActiveRecord::Schema.define(version: 20160128071034) do
 
   create_table "bridges", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "hosts", force: :cascade do |t|
+    t.string   "ip_addr"
+    t.integer  "netmask_len"
+    t.integer  "ram"
+    t.integer  "storage"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "images", force: :cascade do |t|
@@ -28,6 +37,7 @@ ActiveRecord::Schema.define(version: 20160122023904) do
 
   create_table "instances", force: :cascade do |t|
     t.integer  "user_id"
+    t.integer  "host_id"
     t.string   "name"
     t.string   "instance_name"
     t.integer  "cpu"

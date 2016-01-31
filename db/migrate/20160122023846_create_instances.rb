@@ -2,6 +2,7 @@ class CreateInstances < ActiveRecord::Migration
   def change
     create_table :instances do |t|
       t.integer :user_id
+      t.integer :host_id
       t.string :name
       t.string :instance_name
       t.integer :cpu

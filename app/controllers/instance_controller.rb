@@ -1,3 +1,5 @@
+require 'ipaddr'
+
 class InstanceController < ApplicationController
   def create
   	@images = Image.all
@@ -9,16 +11,23 @@ class InstanceController < ApplicationController
   end
 
   def post_create
-  	instance_cnt = Instance.where(user_id: session[:user_id]).count
+    host_id = 1
+    instance_cnt = 100 + Instance.where(user_id: session[:user_id], host_id: host_id).count
+
+    host = Host.where(id: host_id).first
+    ip_addr = IPAddr.new("#{host.ip_addr}").mask(host.netmask_len) | instance_cnt
+    logger.debug ip_addr
 
     instance = Instance.new
     logger.debug instance
     instance.user_id = session[:user_id]
+    instance.host_id = host_id
     instance.name = params[:vm][:name]
     instance.os = params[:vm][:os]
     instance.cpu = params[:vm][:cpu]
     instance.ram = params[:vm][:ram]
-    instance.ip_addr = "192.168.0.#{instance_cnt+1}"
+#    instance.ip_addr = "192.168.0.#{instance_cnt+1}"
+    instance.ip_addr = ip_addr.to_s
     macs = (1..6).each_with_object([]) do |v, h|
       h << rand(0..255).to_s(16)
     end

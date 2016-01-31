@@ -24,3 +24,17 @@
 @image.name = "centos-6.5-x86"
 @image.save
 
+@host = Host.new
+@host.ip_addr = "169.254.16.10"
+@host.netmask_len = 20
+@host.ram = 2048
+@host.storage = 128
+@host.save
+
+@host = Host.new
+@host.ip_addr = "169.254.32.10"
+@host.netmask_len = 20
+@host.ram = 4096
+@host.storage = 128
+@host.save
+
