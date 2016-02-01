@@ -40,7 +40,7 @@ class InstanceController < ApplicationController
     instance.save
 
     logger.debug "#{host.ip_addr}, #{instance.id}, #{ip_addr.to_s}"
-    VmManager.new(host.ip_addr, instance.id, ip_addr.to_s, "debian-7.0-x86", "vram-256m")
+    VmManager.new(host.ip_addr, instance.id, ip_addr.to_s, "debian-7.0-x86", "vswap-256m")
 
     redirect_to '/instance/show'
   end
