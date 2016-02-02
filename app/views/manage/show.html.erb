@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="section">
+    <div class="row">
+      <%= render file: 'common/slidebar' %>
+      <div class="col s9">
+        <h5>Manage</h5>
+        <%= form_tag('update', :method => 'post') do %>
+          <table class="bordered striped centered">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Server</th>
+                <th>User Name</th>
+                <th>Host Name</th>
+                <th>Images</th>
+                <th>CPUs</th>
+                <th>RAM</th>
+                <th>IP</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @instances.each do |instance| %>
+                <tr>
+                  <td><%= instance.id %></td>
+                  <td>
+                    <%= select :vm, "host_id][#{instance.id}", @host_name_arr, {selected: instance.host_id}, {:class => "browser-default"} %>
+                  </td>
+                  <td><%= instance.user.id_str %></td>
+                  <td><%= instance.name %></td>
+                  <td><%= @image_names[instance.os.to_i] %></td>
+                  <td><%= instance.cpu %></td>
+                  <td><%= instance.ram %> MB</td>
+                  <td><%= instance.ip_addr %></td>
+                  <td>
+                    <% if instance.status == 1 then %>
+                      Running
+                    <% else %>
+                      Stopped
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <%= button_tag('Update', :class => "btn") %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

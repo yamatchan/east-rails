@@ -16,7 +16,9 @@ class InstanceController < ApplicationController
 
     instance_cnt = 100 + Instance.count
     host = Host.where(id: host_id).first
-    ip_addr = IPAddr.new("#{host.ip_addr}").mask(host.netmask_len) | instance_cnt
+    instance_base_ip_addr = "169.254.128.100"
+    mask_len = 20
+    ip_addr = IPAddr.new("#{instance_base_ip_addr}").mask(mask_len) | instance_cnt
     logger.debug ip_addr
 
     instance = Instance.new
@@ -40,8 +42,10 @@ class InstanceController < ApplicationController
     logger.debug macs
     instance.save
 
-    logger.debug "#{host.ip_addr}, #{instance.id}, #{ip_addr.to_s}"
-    VmManager.new(host.ip_addr, instance.id, ip_addr.to_s, "debian-7.0-x86", "vswap-256m")
+    Thread.start do
+      logger.debug "#{host.ip_addr}, #{instance.id}, #{ip_addr.to_s}"
+      VmManager.new(host.ip_addr, instance.id + 1, ip_addr.to_s, "debian-7.0-x86", "vswap-256m", params[:vm][:name])
+    end
 
     redirect_to '/instance/show'
   end

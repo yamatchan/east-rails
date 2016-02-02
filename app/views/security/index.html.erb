@@ -3,7 +3,6 @@
     <div class="row">
       <div class="col s12">
         <%= form_tag('/security/login', :method => "post") do %>
-        <%= session[:user_id] %>
           <div class="row">
             <div class="input-field col s12">
               <%= text_field :login, :id_str %>

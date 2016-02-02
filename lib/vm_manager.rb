@@ -3,11 +3,11 @@ require 'ipaddr'
 class VmManager
   IP_ADDR = "169.254.16.0"
 
-  def initialize(terminal_ip, cid, ip, os, ram)
-    self.class.create(terminal_ip, cid, ip, os, ram, 1, "root")
+  def initialize(terminal_ip, cid, ip, os, ram, host_name)
+    self.class.create(terminal_ip, cid, ip, os, ram, 1, "root", host_name)
   end
 
-  def self.create(terminal_ip, cid, ip, os, ram, num, pass)
+  def self.create(terminal_ip, cid, ip, os, ram, num, pass, host_name)
     for i in (0...(num))
       cmd = []
       cmd.concat(["sudo vzctl create #{cid} --ostemplate #{os} --config #{ram}"])
@@ -16,6 +16,7 @@ class VmManager
       cmd.concat(self.start(cid))
       cmd.concat(self.add_if(cid, 0))
       cmd.concat(self.add_if(cid, 1))
+      cmd.push("sudo vzctl set #{cid} --hostname #{host_name} --save")
       cmd.push("sudo vzctl exec #{cid} \\\"echo \\\"auto eth0\\\" >> /etc/network/interfaces\\\"")
       cmd.push("sudo vzctl exec #{cid} \\\"echo \\\"iface eth0 inet dhcp\\\" >> /etc/network/interfaces\\\"")
       cmd.push("sudo vzctl exec #{cid} \\\"echo \\\"auto eth1\\\" >> /etc/network/interfaces\\\"")
@@ -78,7 +79,15 @@ class VmManager
   end
 
   def self.enter(ccid)
-   `sudo vzctl enter #{ccid}`
+    `sudo vzctl enter #{ccid}`
+  end
+
+  def self.livemigrate(src_ip, dst_ip, cid)
+    `ssh root@#{src_ip} "vzmigrate --online #{dst_ip} #{cid}"`
+  end
+
+  def self.migrate(src_ip, dst_ip, cid)
+    `ssh root@#{src_ip} "vzmigrate #{dst_ip} #{cid}"`
   end
 end
 

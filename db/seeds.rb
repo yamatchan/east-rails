@@ -29,12 +29,14 @@
 @host.netmask_len = 20
 @host.ram = 2048
 @host.storage = 128
+@host.name = "kojima-host"
 @host.save
 
 @host = Host.new
 @host.ip_addr = "169.254.32.11"
 @host.netmask_len = 20
-@host.ram = 4096
+@host.ram = 2048
 @host.storage = 128
+@host.name = "yamada-host"
 @host.save
 

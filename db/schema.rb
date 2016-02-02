@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20160128071034) do
   end
 
   create_table "hosts", force: :cascade do |t|
+    t.string   "name"
     t.string   "ip_addr"
     t.integer  "netmask_len"
     t.integer  "ram"
