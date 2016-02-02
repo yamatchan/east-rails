@@ -3,20 +3,23 @@ require 'ipaddr'
 class VmManager
   IP_ADDR = "169.254.16.0"
 
-  def initialize(terminal_ip, cid, ip, os, ram, host_name)
-    self.class.create(terminal_ip, cid, ip, os, ram, 1, "root", host_name)
+  def initialize(terminal_ip, cid, ip, os, conf, host_name, cpuunits, ram, storage)
+    self.class.create(terminal_ip, cid, ip, os, conf, 1, "root", host_name, cpuunits, ram.to_i, storage.to_i)
   end
 
-  def self.create(terminal_ip, cid, ip, os, ram, num, pass, host_name)
+  def self.create(terminal_ip, cid, ip, os, conf, num, pass, host_name, cpuunits, ram, storage)
     for i in (0...(num))
       cmd = []
-      cmd.concat(["sudo vzctl create #{cid} --ostemplate #{os} --config #{ram}"])
+      cmd.concat(["sudo vzctl create #{cid} --ostemplate #{os} --config #{conf}"])
+      cmd.push("sudo vzctl set #{cid} --cpuunits #{cpuunits} --cpulimit 30 --save")
+      cmd.push("sudo vzctl set #{cid} --vmguarpages #{ram*256} --privvmpages #{ram*256*2} --save")
+      cmd.push("sudo vzctl set #{cid} --diskspace #{storage}G:#{storage+3}G --save")
+      cmd.push("sudo vzctl set #{cid} --hostname #{host_name} --save")
       cmd.concat(self.add_ethif(cid, 0))
       cmd.concat(self.add_ethif(cid, 1))
       cmd.concat(self.start(cid))
       cmd.concat(self.add_if(cid, 0))
       cmd.concat(self.add_if(cid, 1))
-      cmd.push("sudo vzctl set #{cid} --hostname #{host_name} --save")
       cmd.push("sudo vzctl exec #{cid} \\\"echo \\\"auto eth0\\\" >> /etc/network/interfaces\\\"")
       cmd.push("sudo vzctl exec #{cid} \\\"echo \\\"iface eth0 inet dhcp\\\" >> /etc/network/interfaces\\\"")
       cmd.push("sudo vzctl exec #{cid} \\\"echo \\\"auto eth1\\\" >> /etc/network/interfaces\\\"")

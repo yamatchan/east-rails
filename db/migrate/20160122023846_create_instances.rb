@@ -7,6 +7,7 @@ class CreateInstances < ActiveRecord::Migration
       t.string :instance_name
       t.integer :cpu
       t.integer :ram
+      t.integer :storage
       t.string :ip_addr
       t.string :mac_addr
       t.string :os

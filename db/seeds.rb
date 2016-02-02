@@ -30,6 +30,7 @@
 @host.ram = 2048
 @host.storage = 128
 @host.name = "kojima-host"
+@host.cpunodes = 500000
 @host.save
 
 @host = Host.new
@@ -38,5 +39,6 @@
 @host.ram = 2048
 @host.storage = 128
 @host.name = "yamada-host"
+@host.cpunodes = 500000
 @host.save
 

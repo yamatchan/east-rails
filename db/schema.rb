@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20160128071034) do
     t.integer  "netmask_len"
     t.integer  "ram"
     t.integer  "storage"
+    t.integer  "cpunodes"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -43,6 +44,7 @@ ActiveRecord::Schema.define(version: 20160128071034) do
     t.string   "instance_name"
     t.integer  "cpu"
     t.integer  "ram"
+    t.integer  "storage"
     t.string   "ip_addr"
     t.string   "mac_addr"
     t.string   "os"

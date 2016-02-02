@@ -9,10 +9,10 @@
             <tr>
               <th>Host Name</th>
               <th>Images</th>
-              <th>CPUs</th>
+              <th>CPU nodes</th>
+              <th>Storage</th>
               <th>RAM</th>
               <th>IP</th>
-              <th>MAC</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -22,12 +22,14 @@
                 <td><%= instance.name %></td>
                 <td><%= @image_names[instance.os.to_i] %></td>
                 <td><%= instance.cpu %></td>
+                <td><%= instance.storage %> GB</td>
                 <td><%= instance.ram %> MB</td>
                 <td><%= instance.ip_addr %></td>
-                <td><%= instance.mac_addr %></td>
                 <td>
                   <% if instance.status == 1 then %>
                     Running
+                  <% elsif instance.status == 2 then %>
+                    Mounted
                   <% else %>
                     Stopped
                   <% end %>

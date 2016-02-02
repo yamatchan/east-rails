@@ -20,8 +20,14 @@
           </div>
           <div class="row">
             <div class="col s12">
-              <%= label :vm, :cpu, "CPU cores" %>
-              <%= select :vm, :cpu, [1,2,3,4], {}, {:class => "browser-default"} %>
+              <%= label :vm, :cpu, "CPU nodess" %>
+              <%= select :vm, :cpu, [1000, 2000, 3000, 4000], {}, {:class => "browser-default"} %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <%= label :vm, :storage, "Storage[GB]" %>
+              <%= select :vm, :storage, [1,2,3,5,7,10], {}, {:class => "browser-default"} %>
             </div>
           </div>
           <div class="row">

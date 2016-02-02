@@ -29,6 +29,7 @@ class InstanceController < ApplicationController
     instance.os = params[:vm][:os]
     instance.cpu = params[:vm][:cpu]
     instance.ram = params[:vm][:ram]
+    instance.storage = params[:vm][:storage]
 #    instance.ip_addr = "192.168.0.#{instance_cnt+1}"
     instance.ip_addr = ip_addr.to_s
     macs = (1..6).each_with_object([]) do |v, h|
@@ -44,7 +45,7 @@ class InstanceController < ApplicationController
 
     Thread.start do
       logger.debug "#{host.ip_addr}, #{instance.id}, #{ip_addr.to_s}"
-      VmManager.new(host.ip_addr, instance.id + 1, ip_addr.to_s, "debian-7.0-x86", "vswap-256m", params[:vm][:name])
+      VmManager.new(host.ip_addr, instance.id + 1, ip_addr.to_s, "debian-7.0-x86", "vswap-256m", params[:vm][:name], params[:vm][:cpu], params[:vm][:ram], params[:vm][:storage])
     end
 
     redirect_to '/instance/show'

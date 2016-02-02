@@ -6,6 +6,7 @@ class CreateHosts < ActiveRecord::Migration
       t.integer :netmask_len
       t.integer :ram
       t.integer :storage
+      t.integer :cpunodes
 
       t.timestamps null: false
     end
