@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   get 'security/logout', to: 'security#logout', as: 'logout'
   get 'manage/show', to: 'manage#show'
   post 'manage/update', to: 'manage#update'
+  post 'manage/stop', to: 'manage#stop'
+  post 'manage/start', to: 'manage#start'
+  post 'manage/delete', to: 'manage#delete'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

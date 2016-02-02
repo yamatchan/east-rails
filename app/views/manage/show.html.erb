@@ -1,8 +1,22 @@
+<script>
+$(document).ready(function(){
+  $('.modal-trigger').leanModal();
+
+  $('a[stopBtn]').click(function(){
+    $('#hdn-stop-instance-id').val($(this).data('id'));
+  });
+  $('a[startBtn]').click(function(){
+    $('#hdn-start-instance-id').val($(this).data('id'));
+  });
+  $('a[deleteBtn]').click(function(){
+    $('#hdn-del-instance-id').val($(this).data('id'));
+  });
+});
+</script>
 <div class="container">
   <div class="section">
     <div class="row">
-      <%= render file: 'common/slidebar' %>
-      <div class="col s9">
+      <div class="col s12">
         <h5>Manage</h5>
         <%= form_tag('update', :method => 'post') do %>
           <table class="bordered striped centered">
@@ -13,10 +27,11 @@
                 <th>User Name</th>
                 <th>Host Name</th>
                 <th>Images</th>
-                <th>CPUs</th>
+                <th>CPU nodes</th>
                 <th>RAM</th>
                 <th>IP</th>
                 <th>Status</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -41,6 +56,16 @@
                       Stopped
                     <% end %>
                   </td>
+                  <td>
+                    <% if instance.status == 1 then %>
+                      <a href="#modal1" class="btn modal-trigger" data-id="<%= instance.id %>" stopBtn><i class="material-icons">report_problem</i></a>
+                    <% elsif instance.status == 2 then %>
+
+                    <% else %>
+                      <a href="#modal3" class="btn modal-trigger" data-id="<%= instance.id %>" startBtn><i class="material-icons">play_arrow</i></a>
+                      <a href="#modal2" class="btn modal-trigger" data-id="<%= instance.id %>" deleteBtn><i class="material-icons">delete</i></a>
+                    <% end %>
+                  </td>
                 </tr>
               <% end %>
             </tbody>
@@ -51,3 +76,45 @@
     </div>
   </div>
 </div>
+
+<%= form_tag('start', :method => 'post') do %>
+  <div id="modal3" class="modal">
+    <div class="modal-content">
+      <h4>インスタンスを起動</h4>
+      <p>インスタンスを起動してもよろしいですか</p>
+    </div>
+    <input type="hidden" name="instance_id" id="hdn-start-instance-id" />
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close btn-flat waves-effect waves-red">Disagree</a>
+      <button type="submit" class="modal-action btn-flat waves-effect waves-green" id="btn-start">Agree</button>
+    </div>
+  </div>
+<% end %>
+
+<%= form_tag('stop', :method => 'post') do %>
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>インスタンスを停止</h4>
+      <p>インスタンスを停止してもよろしいですか</p>
+    </div>
+    <input type="hidden" name="instance_id" id="hdn-stop-instance-id" />
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close btn-flat waves-effect waves-red">Disagree</a>
+      <button type="submit" class="modal-action btn-flat waves-effect waves-green" id="btn-stop">Agree</button>
+    </div>
+  </div>
+<% end %>
+
+<%= form_tag('delete', :method => 'post') do %>
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <h4>インスタンスを削除</h4>
+      <p>インスタンスを削除してもよろしいですか</p>
+    </div>
+    <input type="hidden" name="instance_id" id="hdn-del-instance-id" />
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close btn-flat waves-effect waves-red">Disagree</a>
+      <button type="submit" class="modal-action btn-flat waves-effect waves-green" id="btn-delete">Agree</button>
+    </div>
+  </div>
+<% end %>

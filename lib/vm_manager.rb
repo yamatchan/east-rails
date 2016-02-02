@@ -13,11 +13,11 @@ class VmManager
       cmd.concat(["sudo vzctl create #{cid} --ostemplate #{os} --config #{conf}"])
       cmd.push("sudo vzctl set #{cid} --cpuunits #{cpuunits} --cpulimit 30 --save")
       cmd.push("sudo vzctl set #{cid} --vmguarpages #{ram*256} --privvmpages #{ram*256*2} --save")
-      cmd.push("sudo vzctl set #{cid} --diskspace #{storage}G:#{storage+3}G --save")
+      cmd.push("sudo vzctl set #{cid} --diskspace #{storage}G:#{storage+0.2}G --save")
       cmd.push("sudo vzctl set #{cid} --hostname #{host_name} --save")
       cmd.concat(self.add_ethif(cid, 0))
       cmd.concat(self.add_ethif(cid, 1))
-      cmd.concat(self.start(cid))
+      cmd.concat(self.start_cmd(cid))
       cmd.concat(self.add_if(cid, 0))
       cmd.concat(self.add_if(cid, 1))
       cmd.push("sudo vzctl exec #{cid} \\\"echo \\\"auto eth0\\\" >> /etc/network/interfaces\\\"")
@@ -34,7 +34,7 @@ class VmManager
     end
   end
 
-  def self.start(ccid)
+  def self.start_cmd(ccid)
     ["sudo vzctl start #{ccid}"]
   end
 
@@ -61,17 +61,6 @@ class VmManager
     ["sudo vzctl set #{ccid} --userpasswd #{user}:#{pass}"]
   end
 
-  def self.stop(ccid)
-    output = `sudo vzctl stop #{ccid}`
-    p output
-  end
-
-  def self.destroy(ccid)
-    self.stop(ccid)
-    output = `sudo vzctl destroy #{ccid}`
-    p output
-  end
-
   def self.restart(ccid)
     `sudo vzctl restart #{ccid}`
     self.add_if(0, ccid)
@@ -91,6 +80,18 @@ class VmManager
 
   def self.migrate(src_ip, dst_ip, cid)
     `ssh root@#{src_ip} "vzmigrate #{dst_ip} #{cid}"`
+  end
+
+  def self.start(ip, cid)
+    `ssh root@#{ip} "vzctl start #{cid}"`
+  end
+
+  def self.stop(ip, cid)
+    `ssh root@#{ip} "vzctl stop #{cid}"`
+  end
+
+  def self.destroy(ip, cid)
+    `ssh root@#{ip} "vzctl destroy #{cid}"`
   end
 end
 

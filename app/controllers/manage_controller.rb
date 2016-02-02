@@ -27,4 +27,47 @@ class ManageController < ApplicationController
     end
     redirect_to '/manage/show'
   end
+
+  def start
+    instance_id = params[:instance_id]
+    logger.debug instance_id
+
+    instance = Instance.find(instance_id)
+
+    Thread.start do
+      logger.debug "stop CT: #{instance.id + 1}"
+      VmManager.start(instance.host.ip_addr, instance.id + 1)
+    end
+
+    redirect_to '/manage/show'
+  end
+
+  def stop
+    instance_id = params[:instance_id]
+    logger.debug instance_id
+
+    instance = Instance.find(instance_id)
+
+    Thread.start do
+      logger.debug "stop CT: #{instance.id + 1}"
+      VmManager.stop(instance.host.ip_addr, instance.id + 1)
+    end
+
+    redirect_to '/manage/show'
+  end
+
+  def delete
+    instance_id = params[:instance_id]
+    logger.debug instance_id
+
+    instance = Instance.find(instance_id)
+
+    Thread.start do
+      logger.debug "stop CT: #{instance.id + 1}"
+      VmManager.destroy(instance.host.ip_addr, instance.id + 1)
+    end
+    instance.delete
+
+    redirect_to '/manage/show'
+  end
 end

@@ -9,7 +9,7 @@ class SecurityController < ApplicationController
     if user then
       session[:user_id] = user.id
 #      render :text => user.id
-      redirect_to '/home'
+      redirect_to '/instance/show'
     else
       redirect_to '/security'
     end
