@@ -10,6 +10,7 @@ class CreateInstances < ActiveRecord::Migration
       t.string :ip_addr
       t.string :mac_addr
       t.string :os
+      t.integer :status # stoped: 0, running: 1
 
       t.timestamps null: false
     end

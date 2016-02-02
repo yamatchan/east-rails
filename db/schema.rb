@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20160128071034) do
     t.string   "ip_addr"
     t.string   "mac_addr"
     t.string   "os"
+    t.integer  "status"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end

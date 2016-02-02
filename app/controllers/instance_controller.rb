@@ -11,9 +11,10 @@ class InstanceController < ApplicationController
   end
 
   def post_create
-    host_id = 1
-    instance_cnt = 100 + Instance.where(user_id: session[:user_id], host_id: host_id).count
+    host_id = 2
+#    instance_cnt = 100 + Instance.where(user_id: session[:user_id], host_id: host_id).count
 
+    instance_cnt = 100 + Instance.count
     host = Host.where(id: host_id).first
     ip_addr = IPAddr.new("#{host.ip_addr}").mask(host.netmask_len) | instance_cnt
     logger.debug ip_addr

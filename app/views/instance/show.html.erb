@@ -13,6 +13,7 @@
               <th>RAM</th>
               <th>IP</th>
               <th>MAC</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -24,6 +25,13 @@
                 <td><%= instance.ram %> MB</td>
                 <td><%= instance.ip_addr %></td>
                 <td><%= instance.mac_addr %></td>
+                <td>
+                  <% if instance.status == 1 then %>
+                    Running
+                  <% else %>
+                    Stopped
+                  <% end %>
+                </td>
               </tr>
             <% end %>
           </tbody>

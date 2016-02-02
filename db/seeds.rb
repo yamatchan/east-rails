@@ -7,8 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 @user = User.new
-@user.id_str = "test"
-@user.password = "test"
+@user.id_str = "demo"
+@user.password = "demo"
 @user.save
 
 @user = User.new
