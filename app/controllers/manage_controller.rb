@@ -21,7 +21,11 @@ class ManageController < ApplicationController
 #        cmd = "ssh root@#{src_host.ip_addr} \"vzmigrate --online #{dst_host.ip_addr} #{instance.id}\""
         Thread.start do
           logger.debug "live migrate #{src_host.ip_addr} => #{dst_host.ip_addr} CID: #{instance.id + 1}"
-          VmManager.livemigrate(src_host.ip_addr, dst_host.ip_addr, instance.id + 1)
+          if instance.status == 1 then
+            VmManager.livemigrate(src_host.ip_addr, dst_host.ip_addr, instance.id + 1)
+          elsif instance.status == 0 then
+            VmManager.migrate(src_host.ip_addr, dst_host.ip_addr, instance.id + 1)
+          end
         end
       end
     end
